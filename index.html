@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>For Pawni 💕</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;500&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #ffe4f0 0%, #ffd6e7 30%, #ffb3d1 60%, #ff8fb1 100%);
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Floating hearts background */
+    .hearts-bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .float-heart {
+      position: absolute;
+      bottom: -50px;
+      font-size: 1.2rem;
+      animation: floatUp linear infinite;
+      opacity: 0.5;
+    }
+
+    @keyframes floatUp {
+      0%   { transform: translateY(0) rotate(0deg); opacity: 0.5; }
+      100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* Pages */
+    .page {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 30px 24px;
+      position: relative;
+      z-index: 1;
+      animation: fadeIn 0.6s ease;
+      max-width: 400px;
+      width: 100%;
+    }
+
+    .page.active { display: flex; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9) translateY(20px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* Card */
+    .card {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(16px);
+      border-radius: 32px;
+      padding: 36px 28px;
+      box-shadow: 0 20px 60px rgba(255, 100, 150, 0.25), 0 4px 20px rgba(255,255,255,0.6) inset;
+      border: 1.5px solid rgba(255,255,255,0.8);
+      width: 100%;
+    }
+
+    .big-emoji { font-size: 4rem; margin-bottom: 10px; display: block; animation: pulse 1.5s ease-in-out infinite; }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50%       { transform: scale(1.15); }
+    }
+
+    .title {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2.4rem;
+      color: #d63384;
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: #a0527a;
+      font-weight: 300;
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+
+    /* Buttons */
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 15px 20px;
+      border: none;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+      cursor: pointer;
+      margin-bottom: 12px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn:active { transform: scale(0.96); }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #ff6b9d, #ff4081);
+      color: #fff;
+      box-shadow: 0 8px 25px rgba(255, 64, 129, 0.4);
+    }
+
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(255, 64, 129, 0.5); }
+
+    .btn-soft {
+      background: linear-gradient(135deg, #fce4f0, #f8bbd9);
+      color: #c2185b;
+      box-shadow: 0 4px 15px rgba(255,100,150,0.2);
+    }
+
+    .btn-soft:hover { transform: translateY(-2px); }
+
+    .btn-green {
+      background: linear-gradient(135deg, #81c784, #4caf50);
+      color: #fff;
+      box-shadow: 0 8px 25px rgba(76, 175, 80, 0.35);
+    }
+
+    /* Sparkle on button click */
+    .btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .btn:active::after { opacity: 1; }
+
+    /* Progress dots */
+    .dots {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: rgba(214, 51, 132, 0.25);
+      transition: background 0.3s, transform 0.3s;
+    }
+
+    .dot.active { background: #d63384; transform: scale(1.3); }
+
+    /* Gift box page */
+    .gift-box {
+      font-size: 5rem;
+      cursor: pointer;
+      transition: transform 0.3s;
+      display: inline-block;
+      margin-bottom: 10px;
+      animation: bounce 1s ease infinite;
+      user-select: none;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-12px); }
+    }
+
+    /* Confetti burst */
+    .confetti-wrap {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    .confetti-piece {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      width: 10px; height: 10px;
+      border-radius: 2px;
+      animation: confettiFly 1.5s ease forwards;
+    }
+
+    @keyframes confettiFly {
+      0%   { transform: translate(0,0) rotate(0deg); opacity: 1; }
+      100% { transform: translate(var(--tx), var(--ty)) rotate(var(--rot)); opacity: 0; }
+    }
+
+    /* Hug counter */
+    .hug-count {
+      font-size: 3.5rem;
+      font-family: 'Dancing Script', cursive;
+      color: #d63384;
+      margin: 10px 0;
+    }
+
+    /* Final page special */
+    .stars { font-size: 1.5rem; letter-spacing: 4px; margin: 10px 0; }
+  </style>
+</head>
+<body>
+
+<!-- Floating hearts -->
+<div class="hearts-bg" id="heartsContainer"></div>
+
+<!-- PAGE 1: Sorry -->
+<div class="page active" id="page1">
+  <div class="card">
+    <span class="big-emoji">🥺</span>
+    <div class="title">I'm So Sorry,<br>Pawni</div>
+    <p class="subtitle">I never meant to hurt you.<br>You mean everything to me. 💗</p>
+    <button class="btn btn-primary" onclick="goTo(2)">Will you hear me out? 👉</button>
+    <button class="btn btn-soft" onclick="goTo(2)">Maybe... 🌸</button>
+  </div>
+  <div class="dots">
+    <div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+  </div>
+</div>
+
+<!-- PAGE 2: Promise -->
+<div class="page" id="page2">
+  <div class="card">
+    <span class="big-emoji">🌷</span>
+    <div class="title">I Promise You</div>
+    <p class="subtitle">To always be there,<br>to never let you feel this way again 🌸</p>
+    <button class="btn btn-primary" onclick="goTo(3)">That's sweet 🥰</button>
+    <button class="btn btn-soft" onclick="goTo(3)">Continue →</button>
+  </div>
+  <div class="dots">
+    <div class="dot"></div><div class="dot active"></div><div class="dot"></div><div class="dot"></div>
+  </div>
+</div>
+
+<!-- PAGE 3: Gift / Tap -->
+<div class="page" id="page3">
+  <div class="card">
+    <span class="gift-box" onclick="openGift()" id="giftBox">🎁</span>
+    <div class="title">A Little Something</div>
+    <p class="subtitle">Tap the gift for you 👆</p>
+  </div>
+  <div class="dots">
+    <div class="dot"></div><div class="dot"></div><div class="dot active"></div><div class="dot"></div>
+  </div>
+</div>
+
+<!-- PAGE 4: Hug -->
+<div class="page" id="page4">
+  <div class="card">
+    <span class="big-emoji">🤗</span>
+    <div class="title">Virtual Hugs!</div>
+    <div class="hug-count" id="hugCount">0</div>
+    <p class="subtitle">Tap to collect your hugs 🫂</p>
+    <button class="btn btn-primary" onclick="addHug()">Give me a hug 🤍</button>
+    <button class="btn btn-green" id="forgivenBtn" style="display:none" onclick="goTo(5)">Okay, I forgive you 💚</button>
+  </div>
+  <div class="dots">
+    <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot active"></div>
+  </div>
+</div>
+
+<!-- PAGE 5: Final -->
+<div class="page" id="page5">
+  <div class="card">
+    <span class="big-emoji" style="animation:none;font-size:3.5rem;">💖</span>
+    <div class="title">Thank you, Pawni</div>
+    <div class="stars">✨🌸✨🌸✨</div>
+    <p class="subtitle">You're my favourite person<br>in the whole world 🌍💕</p>
+    <button class="btn btn-primary" onclick="celebrate()">🎉 Yay!</button>
+    <button class="btn btn-soft" onclick="goTo(1)">Start over 🔄</button>
+  </div>
+</div>
+
+<!-- Confetti container -->
+<div class="confetti-wrap" id="confettiWrap"></div>
+
+<script>
+  // --- Floating hearts ---
+  const container = document.getElementById('heartsContainer');
+  const emojis = ['💕','🌸','💗','🌷','✨','💖','🩷'];
+  for (let i = 0; i < 20; i++) {
+    const h = document.createElement('span');
+    h.classList.add('float-heart');
+    h.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    h.style.left = Math.random() * 100 + 'vw';
+    h.style.animationDuration = (6 + Math.random() * 8) + 's';
+    h.style.animationDelay = (Math.random() * 8) + 's';
+    h.style.fontSize = (0.8 + Math.random() * 1.2) + 'rem';
+    container.appendChild(h);
+  }
+
+  // --- Page navigation ---
+  let currentPage = 1;
+  function goTo(n) {
+    document.getElementById('page' + currentPage).classList.remove('active');
+    currentPage = n;
+    document.getElementById('page' + n).classList.add('active');
+  }
+
+  // --- Gift tap ---
+  function openGift() {
+    const box = document.getElementById('giftBox');
+    box.textContent = '💐';
+    box.style.animation = 'none';
+    box.style.transform = 'scale(1.4)';
+    setTimeout(() => { box.style.transform = 'scale(1)'; }, 300);
+    spawnConfetti();
+    setTimeout(() => goTo(4), 1200);
+  }
+
+  // --- Confetti ---
+  function spawnConfetti() {
+    const wrap = document.getElementById('confettiWrap');
+    wrap.innerHTML = '';
+    const colors = ['#ff6b9d','#ff4081','#fce4f0','#f8bbd9','#fff176','#a5d6a7','#ce93d8'];
+    for (let i = 0; i < 50; i++) {
+      const p = document.createElement('div');
+      p.classList.add('confetti-piece');
+      p.style.background = colors[Math.floor(Math.random() * colors.length)];
+      const angle = Math.random() * 360;
+      const dist = 80 + Math.random() * 160;
+      const tx = Math.cos(angle * Math.PI/180) * dist + 'px';
+      const ty = (Math.sin(angle * Math.PI/180) * dist - 100) + 'px';
+      p.style.setProperty('--tx', tx);
+      p.style.setProperty('--ty', ty);
+      p.style.setProperty('--rot', (Math.random()*720 - 360) + 'deg');
+      p.style.animationDelay = Math.random() * 0.3 + 's';
+      wrap.appendChild(p);
+    }
+    setTimeout(() => wrap.innerHTML = '', 2000);
+  }
+
+  // --- Hug counter ---
+  let hugs = 0;
+  function addHug() {
+    hugs++;
+    document.getElementById('hugCount').textContent = hugs;
+    if (hugs >= 5) {
+      document.getElementById('forgivenBtn').style.display = 'block';
+    }
+    // mini shake
+    const el = document.getElementById('hugCount');
+    el.style.transform = 'scale(1.4)';
+    setTimeout(() => el.style.transform = 'scale(1)', 200);
+  }
+
+  // --- Celebrate ---
+  function celebrate() {
+    spawnConfetti();
+    setTimeout(spawnConfetti, 500);
+  }
+</script>
+</body>
+</html>
